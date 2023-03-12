@@ -1,40 +1,40 @@
-import styles from "./gridComp.module.css";
-import stylesFilter from "../SearchFilter/SearchFilter.module.css";
-import Link from "next/link";
-import SearchFilter from "../SearchFilter/SearchFilter";
-import { useState, useEffect } from "react";
-import GridView from "./GridView";
-import SearchIcon from "../..//public/FFR-assets/Icons/search_icon.svg";
-import Image from "next/image";
+import styles from './gridComp.module.css'
+import stylesFilter from '../SearchFilter/SearchFilter.module.css'
+import Link from 'next/link'
+import SearchFilter from '../SearchFilter/SearchFilter'
+import { useState, useEffect } from 'react'
+import GridView from './GridView'
+import SearchIcon from '../..//public/FFR-assets/Icons/search_icon.svg'
+import Image from 'next/image'
 
 export default function GridComp({ fellowship }) {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [toggleViewMode, setToggleViewMode] = useState(false);
-  const [sortByDeadline, setSortByDeadline] = useState(false);
-  const [buttonPopup, setButtonPopup] = useState(false);
-  const [resultPopup, setResultPopup] = useState(false);
-  const [country, setCountry] = useState();
-  const [type, setType] = useState({});
-  const [eligibility, setEligibility] = useState();
-  const [duration, setDuration] = useState();
-  const [fee, setFee] = useState(false);
-  const [field, setField] = useState({});
+  const [searchTerm, setSearchTerm] = useState('')
+  const [toggleViewMode, setToggleViewMode] = useState(false)
+  const [sortByDeadline, setSortByDeadline] = useState(false)
+  const [buttonPopup, setButtonPopup] = useState(false)
+  const [resultPopup, setResultPopup] = useState(false)
+  const [country, setCountry] = useState()
+  const [type, setType] = useState({})
+  const [eligibility, setEligibility] = useState()
+  const [duration, setDuration] = useState()
+  const [fee, setFee] = useState(false)
+  const [field, setField] = useState({})
   // const [sortDirection, sortDirectionSet] = useState("ASC");
-  const [filteredFellowships, filteredFellowshipsSet] = useState(fellowship);
+  const [filteredFellowships, filteredFellowshipsSet] = useState(fellowship)
 
   const applySearchTerm = () => {
     filteredFellowshipsSet(
       fellowship.filter((val) => {
-        if (searchTerm.trim() === "") {
-          return true;
+        if (searchTerm.trim() === '') {
+          return true
         } else {
           return val.fields.title
             .toLowerCase()
-            .includes(searchTerm.toLowerCase());
+            .includes(searchTerm.toLowerCase())
         }
       })
-    );
-  };
+    )
+  }
 
   const applyFilters = () => {
     filteredFellowshipsSet(
@@ -43,57 +43,57 @@ export default function GridComp({ fellowship }) {
           return country
             ? fellowship?.fields?.location?.toLowerCase() ===
                 country.toLowerCase()
-            : true;
+            : true
         })
         .filter((fellowship) => {
           const arrayOfValidTypes = Object.entries(type)
             .filter(([_fieldName, fieldNameValue]) => fieldNameValue)
-            .map(([fieldName]) => fieldName.toLowerCase());
+            .map(([fieldName]) => fieldName.toLowerCase())
 
           return arrayOfValidTypes.length > 0
             ? arrayOfValidTypes.includes(
                 fellowship?.fields?.type?.toLowerCase()
               )
-            : true;
+            : true
         })
         .filter((fellowship) => {
           return eligibility
             ? fellowship?.fields?.eligibility?.toLowerCase() ===
                 eligibility.toLowerCase()
-            : true;
+            : true
         })
         .filter((fellowship) => {
           return duration
             ? fellowship?.fields?.duration?.toLowerCase() ===
                 duration.toLowerCase()
-            : true;
+            : true
         })
         .filter((fellowship) => {
           const arrayOfValidFields = Object.entries(field)
             .filter(([_fieldName, fieldNameValue]) => fieldNameValue)
-            .map(([fieldName]) => fieldName.toLowerCase());
+            .map(([fieldName]) => fieldName.toLowerCase())
 
           return arrayOfValidFields.length > 0
             ? arrayOfValidFields.includes(
                 fellowship?.fields?.field?.toLowerCase()
               )
-            : true;
+            : true
         })
         .sort((a, b) => {
           // Sorting By Deadline
           if (sortByDeadline) {
-            return new Date(a.fields.deadline) - new Date(b.fields.deadline);
+            return new Date(a.fields.deadline) - new Date(b.fields.deadline)
           }
 
           // Sorting By Date Added
-          return new Date(a.sys.createdAt) - new Date(b.sys.createdAt);
+          return new Date(a.sys.createdAt) - new Date(b.sys.createdAt)
         })
-    );
-  };
+    )
+  }
 
   useEffect(() => {
-    applyFilters();
-  }, [sortByDeadline]);
+    applyFilters()
+  }, [sortByDeadline])
 
   return (
     <div>
@@ -133,14 +133,14 @@ export default function GridComp({ fellowship }) {
                 >
                   <option value="">Select Country</option>
                   {[
-                    "France",
-                    "Germany",
-                    "India",
-                    "England",
-                    "Australia",
-                    "New Zealand",
-                    "Tonga",
-                    "America",
+                    'France',
+                    'Germany',
+                    'India',
+                    'England',
+                    'Australia',
+                    'New Zealand',
+                    'Tonga',
+                    'America',
                   ].map((datum) => (
                     <option key={datum} value={datum}>
                       {datum}
@@ -152,7 +152,7 @@ export default function GridComp({ fellowship }) {
               <div>
                 <h1 className={styles.searchFilterSub}>Type</h1>
 
-                {["Production", "Exhibition", "Research"].map((val, index) => (
+                {['Production', 'Exhibition', 'Research'].map((val, index) => (
                   <div key={`${val}-${index}`}>
                     <input
                       type="checkbox"
@@ -226,13 +226,13 @@ export default function GridComp({ fellowship }) {
                 <h1 className={styles.searchFilterSub}>Field</h1>
 
                 {[
-                  "Visual",
-                  "Multidisciplinary",
-                  "Curatorial",
-                  "Sound",
-                  "Literature",
-                  "Performance",
-                  "Dance",
+                  'Visual',
+                  'Multidisciplinary',
+                  'Curatorial',
+                  'Sound',
+                  'Literature',
+                  'Performance',
+                  'Dance',
                 ].map((val, index) => (
                   <div key={`${val}-${index}`}>
                     <input
@@ -263,15 +263,15 @@ export default function GridComp({ fellowship }) {
             onClick={() => setSortByDeadline(!sortByDeadline)}
           >
             {sortByDeadline
-              ? "Sort by: Deadline approaching"
-              : "Sort by: Recently added"}
+              ? 'Sort by: Deadline approaching'
+              : 'Sort by: Recently added'}
           </button>
 
           <button
             className={styles.toggleBtn}
             onClick={() => setToggleViewMode(!toggleViewMode)}
           >
-            {toggleViewMode ? "view as: Cards" : " view as: List"}
+            {toggleViewMode ? 'view as: Cards' : ' view as: List'}
           </button>
         </div>
 
@@ -313,7 +313,7 @@ export default function GridComp({ fellowship }) {
             location,
             type,
             deadline,
-          } = fellowship.fields;
+          } = fellowship.fields
 
           if (toggleViewMode) {
             return (
@@ -338,7 +338,7 @@ export default function GridComp({ fellowship }) {
                   </button>
                 </div>
               </div>
-            );
+            )
           }
 
           return (
@@ -355,9 +355,9 @@ export default function GridComp({ fellowship }) {
                 type={type}
               />
             </div>
-          );
+          )
         })}
       </ul>
     </div>
-  );
+  )
 }

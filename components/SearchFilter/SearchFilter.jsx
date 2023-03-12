@@ -1,4 +1,4 @@
-import styles from "./SearchFilter.module.css";
+import styles from './SearchFilter.module.css'
 
 export default function SearchFilter(props) {
   return props.trigger ? (
@@ -14,6 +14,6 @@ export default function SearchFilter(props) {
       </div>
     </div>
   ) : (
-    ""
-  );
+    ''
+  )
 }
